@@ -12,42 +12,67 @@ import {
   User
 } from 'lucide-react';
 
-// Interfejs opisujący strukturę danych czasowych (dzienny, tygodniowy, miesięczny)
-interface TimeData {
-  netSales: number;    // sprzedaż netto
-  profit: number;      // zysk
-  paidSales: number;   // sprzedaż opłacona
-  phSales: number;     // sprzedaż przedstawicieli handlowych
+// Podstawowa struktura dla transakcji
+interface BasicTransactionData {
+  netSales: number;
+  paidSales: number;
 }
 
-// Interfejs dla komponentu ExtendedTimeRow
-interface ExtendedTimeRowProps {
-  icon: React.ElementType;  // typ ikony
-  label: string;           // etykieta (np. "Dziś", "Tydzień")
-  data: TimeData;          // dane do wyświetlenia
+// Struktura dla pełnych danych transakcji
+interface FullTransactionData {
+  netSales: number;
+  profit: number;
+  paidSales: number;
+  phSales: number;
 }
 
+// Struktura dla danych historycznych (podstawowa)
+interface BasicHistoricalData extends BasicTransactionData {
+  month: string;
+}
+
+// Struktura dla pełnych danych historycznych
+interface FullHistoricalData extends FullTransactionData {
+  month: string;
+}
+
+// Struktura dla danych oddziału
+interface BranchData {
+  total: BasicTransactionData;
+  daily: BasicTransactionData;
+  weekly: BasicTransactionData;
+  monthly: BasicTransactionData;
+  historical: BasicHistoricalData[];
+}
+
+// Struktura dla danych sumarycznych
+interface SummaryData {
+  total: FullTransactionData;
+  daily: FullTransactionData;
+  weekly: FullTransactionData;
+  monthly: FullTransactionData;
+  historical: FullHistoricalData[];
+}
+
+// Props dla komponentów
 interface TimeRowProps {
   icon: React.ElementType;
   label: string;
-  data: {
-    netSales: number;
-    paidSales: number;
-  };
+  data: BasicTransactionData;
+}
+
+interface ExtendedTimeRowProps {
+  icon: React.ElementType;
+  label: string;
+  data: FullTransactionData;
 }
 
 interface HistoricalRowProps {
-  data: {
-    month: string;
-    netSales: number;
-    paidSales: number;
-  };
+  data: BasicHistoricalData;
 }
 
 interface ExtendedHistoricalRowProps {
-  data: TimeData & {
-    month: string;
-  };
+  data: FullHistoricalData;
 }
 
 interface BranchCardProps {
@@ -120,7 +145,7 @@ interface TimeRowProps {
   };
 }
 
-const TimeRow: React.FC<TimeRowProps> = ({ icon: Icon, label, data }) => (
+const TimeRow = ({ icon: Icon, label, data }: TimeRowProps) => (
   <div className="grid grid-cols-3 gap-2">
     <div className="flex items-center gap-1">
       <Icon className="h-4 w-4 text-gray-500" />
@@ -194,35 +219,60 @@ const ExtendedHistoricalRow: React.FC<ExtendedHistoricalRowProps> = ({ data }) =
 
 const BranchCard: React.FC<BranchCardProps> = ({ branch, index, expandedIndices, setExpandedIndices }) => {
   const isRepresentative = branch.isRepresentative;
-  const [branchData, setBranchData] = useState(initialBranchData);
   const [contentHeight, setContentHeight] = useState(0);
   const historicalRef = useRef<HTMLDivElement>(null);
   const isExpanded = expandedIndices[index] === true;
+  const [branchData, setBranchData] = useState<BranchData>({
+    total: {
+      netSales: 0,
+      paidSales: 0
+    },
+    daily: {
+      netSales: 0,
+      paidSales: 0
+    },
+    weekly: {
+      netSales: 0,
+      paidSales: 0
+    },
+    monthly: {
+      netSales: 0,
+      paidSales: 0
+    },
+    historical: [
+      { month: 'Luty 2024', netSales: 0, paidSales: 0 },
+      { month: 'Styczeń 2024', netSales: 0, paidSales: 0 },
+      { month: 'Grudzień 2023', netSales: 0, paidSales: 0 }
+    ]
+  });
 
   useEffect(() => {
-    setBranchData({
-      total: {
-        netSales: Math.random() * 5000000,
-        paidSales: Math.random() * 4000000
-      },
-      daily: {
-        netSales: Math.random() * 50000,
-        paidSales: Math.random() * 40000
-      },
-      weekly: {
-        netSales: Math.random() * 200000,
-        paidSales: Math.random() * 160000
-      },
-      monthly: {
-        netSales: Math.random() * 800000,
-        paidSales: Math.random() * 640000
-      },
-      historical: [
-        { month: 'Luty 2024', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 },
-        { month: 'Styczeń 2024', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 },
-        { month: 'Grudzień 2023', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 }
-      ]
-    });
+    // Generujemy losowe dane tylko po stronie klienta
+    if (typeof window !== 'undefined') {
+      setBranchData({
+        total: {
+          netSales: Math.random() * 5000000,
+          paidSales: Math.random() * 4000000
+        },
+        daily: {
+          netSales: Math.random() * 50000,
+          paidSales: Math.random() * 40000
+        },
+        weekly: {
+          netSales: Math.random() * 200000,
+          paidSales: Math.random() * 160000
+        },
+        monthly: {
+          netSales: Math.random() * 800000,
+          paidSales: Math.random() * 640000
+        },
+        historical: [
+          { month: 'Luty 2024', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 },
+          { month: 'Styczeń 2024', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 },
+          { month: 'Grudzień 2023', netSales: Math.random() * 800000, paidSales: Math.random() * 640000 }
+        ]
+      });
+    }
   }, [branch.id]);
 
   useEffect(() => {
