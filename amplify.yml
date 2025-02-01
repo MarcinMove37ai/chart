@@ -1,18 +1,25 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - cd frontend
-        - npm ci
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: frontend/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - frontend/node_modules/**/*
-      - frontend/.next/cache/**/*
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd frontend
+            - npm i -g npm@latest
+            - npm ci --include=dev
+            - npm install -g typescript
+        build:
+          commands:
+            - echo "Installing additional dependencies..."
+            - npm list tailwindcss || npm install tailwindcss
+            - npm list postcss || npm install postcss
+            - npm list autoprefixer || npm install autoprefixer
+            - echo "Starting build..."
+            - npm run build
+      artifacts:
+        baseDirectory: frontend/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - frontend/node_modules/**/*
