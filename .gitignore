@@ -1,0 +1,44 @@
+# Utwórz główny .gitignore
+echo "# System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE - JetBrains (WebStorm, PyCharm, etc)
+.idea/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Docker
+docker-compose.override.yml
+
+# Dependencies
+/frontend/node_modules/
+/backend/venv/
+
+# Build outputs
+/frontend/.next/
+/frontend/out/
+/frontend/build/
+/backend/__pycache__/
+/backend/*.pyc" > .gitignore
