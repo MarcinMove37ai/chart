@@ -12,6 +12,55 @@ import {
   User
 } from 'lucide-react';
 
+// Interfejs opisujący strukturę danych czasowych (dzienny, tygodniowy, miesięczny)
+interface TimeData {
+  netSales: number;    // sprzedaż netto
+  profit: number;      // zysk
+  paidSales: number;   // sprzedaż opłacona
+  phSales: number;     // sprzedaż przedstawicieli handlowych
+}
+
+// Interfejs dla komponentu ExtendedTimeRow
+interface ExtendedTimeRowProps {
+  icon: React.ElementType;  // typ ikony
+  label: string;           // etykieta (np. "Dziś", "Tydzień")
+  data: TimeData;          // dane do wyświetlenia
+}
+
+interface TimeRowProps {
+  icon: React.ElementType;
+  label: string;
+  data: {
+    netSales: number;
+    paidSales: number;
+  };
+}
+
+interface HistoricalRowProps {
+  data: {
+    month: string;
+    netSales: number;
+    paidSales: number;
+  };
+}
+
+interface ExtendedHistoricalRowProps {
+  data: TimeData & {
+    month: string;
+  };
+}
+
+interface BranchCardProps {
+  branch: {
+    id: number;
+    name: string;
+    isRepresentative?: boolean;
+  };
+  index: number;
+  expandedIndices: boolean[];
+  setExpandedIndices: React.Dispatch<React.SetStateAction<boolean[]>>;
+}
+
 const initialBranchData = {
   total: {
     netSales: 5000000,
@@ -71,7 +120,7 @@ interface TimeRowProps {
   };
 }
 
-const TimeRow = ({ icon: Icon, label, data }: TimeRowProps) => (
+const TimeRow: React.FC<TimeRowProps> = ({ icon: Icon, label, data }) => (
   <div className="grid grid-cols-3 gap-2">
     <div className="flex items-center gap-1">
       <Icon className="h-4 w-4 text-gray-500" />
@@ -86,7 +135,7 @@ const TimeRow = ({ icon: Icon, label, data }: TimeRowProps) => (
   </div>
 );
 
-const ExtendedTimeRow = ({ icon: Icon, label, data }) => (
+const ExtendedTimeRow: React.FC<ExtendedTimeRowProps> = ({ icon: Icon, label, data }) => (
   <div className="grid grid-cols-[1fr_repeat(2,minmax(0,1fr))] md:grid-cols-[1fr_repeat(3,minmax(0,1fr))] lg:grid-cols-[1fr_repeat(4,minmax(0,1fr))] gap-2">
     <div className="flex items-center gap-1">
       <Icon className="h-4 w-4 text-gray-500" />
@@ -107,7 +156,7 @@ const ExtendedTimeRow = ({ icon: Icon, label, data }) => (
   </div>
 );
 
-const HistoricalRow = ({ data }) => (
+const HistoricalRow: React.FC<HistoricalRowProps> = ({ data }) => (
   <div className="grid grid-cols-3 gap-2 py-2 border-b border-gray-200 last:border-0">
     <div className="flex items-center gap-1">
       <Calendar className="h-4 w-4 text-gray-500" />
@@ -122,7 +171,7 @@ const HistoricalRow = ({ data }) => (
   </div>
 );
 
-const ExtendedHistoricalRow = ({ data }) => (
+const ExtendedHistoricalRow: React.FC<ExtendedHistoricalRowProps> = ({ data }) => (
   <div className="grid grid-cols-[1fr_repeat(2,minmax(0,1fr))] md:grid-cols-[1fr_repeat(3,minmax(0,1fr))] lg:grid-cols-[1fr_repeat(4,minmax(0,1fr))] gap-2 py-2 border-b border-gray-200 last:border-0">
     <div className="flex items-center gap-1">
       <Calendar className="h-4 w-4 text-gray-500" />
@@ -143,7 +192,7 @@ const ExtendedHistoricalRow = ({ data }) => (
   </div>
 );
 
-const BranchCard = ({ branch, index, expandedIndices, setExpandedIndices }) => {
+const BranchCard: React.FC<BranchCardProps> = ({ branch, index, expandedIndices, setExpandedIndices }) => {
   const isRepresentative = branch.isRepresentative;
   const [branchData, setBranchData] = useState(initialBranchData);
   const [contentHeight, setContentHeight] = useState(0);
