@@ -9,4 +9,12 @@ const nextConfig = {
   assetPrefix: process.env.NODE_ENV === 'production' ? '/' : ''
 };
 
-module.exports = nextConfig;
+const path = require('path');
+
+module.exports = {
+  webpack: (config, { isServer }) => {
+    config.resolve.alias['@'] = path.join(__dirname, 'src');
+    return config;
+  },
+};
+
