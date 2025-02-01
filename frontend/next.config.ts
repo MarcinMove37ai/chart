@@ -1,6 +1,6 @@
-import { Config } from 'next';
+import type { NextConfig } from 'next';
 
-const nextConfig: Config = {
+const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
     unoptimized: true,
