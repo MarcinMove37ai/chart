@@ -5,7 +5,6 @@ import React, { useState, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BarChart3, ClipboardList, PiggyBank, TrendingUp, Map, Settings, User, Menu, X } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const userRole = 'BOARD';
 const userName = 'Irek Matusiak';
