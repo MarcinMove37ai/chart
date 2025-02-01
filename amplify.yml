@@ -5,12 +5,9 @@ applications:
         preBuild:
           commands:
             - cd frontend
-            - npm ci
+            - npm ci --legacy-peer-deps
         build:
           commands:
-            - echo "Installing additional dependencies..."
-            - npm install tailwindcss postcss autoprefixer --save
-            - echo "Starting build..."
             - npm run build
       artifacts:
         baseDirectory: frontend/.next
