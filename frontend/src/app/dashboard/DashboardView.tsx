@@ -45,14 +45,6 @@ interface BranchData {
   historical: BasicHistoricalData[];
 }
 
-// Struktura dla danych sumarycznych
-interface SummaryData {
-  total: FullTransactionData;
-  daily: FullTransactionData;
-  weekly: FullTransactionData;
-  monthly: FullTransactionData;
-  historical: FullHistoricalData[];
-}
 
 // Props dla komponentów
 interface TimeRowProps {
