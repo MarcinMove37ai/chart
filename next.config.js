@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
   output: 'export',
   images: {
@@ -10,4 +9,4 @@ const nextConfig = {
   assetPrefix: process.env.NODE_ENV === 'production' ? '/' : ''
 };
 
-export default nextConfig;
+module.exports = nextConfig;
