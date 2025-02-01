@@ -5,15 +5,11 @@ applications:
         preBuild:
           commands:
             - cd frontend
-            - npm i -g npm@latest
-            - npm ci --include=dev
-            - npm install -g typescript
+            - npm ci
         build:
           commands:
             - echo "Installing additional dependencies..."
-            - npm list tailwindcss || npm install tailwindcss
-            - npm list postcss || npm install postcss
-            - npm list autoprefixer || npm install autoprefixer
+            - npm install tailwindcss postcss autoprefixer --save
             - echo "Starting build..."
             - npm run build
       artifacts:
@@ -23,3 +19,8 @@ applications:
       cache:
         paths:
           - frontend/node_modules/**/*
+    build:
+      phases:
+        install:
+          runtime-versions:
+            nodejs: 18
