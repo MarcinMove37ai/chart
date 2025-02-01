@@ -7,7 +7,10 @@ const nextConfig = {
   },
   trailingSlash: true,
   reactStrictMode: true,
-  assetPrefix: process.env.NODE_ENV === 'production' ? '.' : ''
+  // Zmieniamy assetPrefix na prawidłową wartość
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
+  // Dodajemy konfigurację dla fontów
+  optimizeFonts: false
 };
 
 export default nextConfig;
