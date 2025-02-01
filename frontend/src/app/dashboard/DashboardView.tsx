@@ -62,7 +62,16 @@ const branches = [
   { id: 6, name: 'Myślibórz' }
 ];
 
-const TimeRow = ({ icon: Icon, label, data }) => (
+interface TimeRowProps {
+  icon: React.ElementType;  // Typ dla komponentu ikony
+  label: string;
+  data: {
+    netSales: number;
+    paidSales: number;
+  };
+}
+
+const TimeRow = ({ icon: Icon, label, data }: TimeRowProps) => (
   <div className="grid grid-cols-3 gap-2">
     <div className="flex items-center gap-1">
       <Icon className="h-4 w-4 text-gray-500" />
