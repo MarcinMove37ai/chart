@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image';
 import React, { useState, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,34 +18,6 @@ const userRoleDisplay = {
 interface AdminLayoutProps {
   children: ReactNode;
 }
-
-const TopFilters = ({isMobile}: {isMobile: boolean}) => (
-  <div className={`mb-2 flex gap-2 font-sans ${isMobile ? 'flex-wrap' : ''}`}>
-    <Select defaultValue="all">
-      <SelectTrigger className={`${isMobile ? 'w-[140px]' : 'w-[200px]'} bg-white border-gray-200 text-gray-700 hover:border-blue-400`}>
-        <SelectValue placeholder="Oddział" />
-      </SelectTrigger>
-      <SelectContent className="bg-white border border-gray-200">
-        <SelectItem value="all">Wszystkie</SelectItem>
-        <SelectItem value="1">Warszawa</SelectItem>
-        <SelectItem value="2">Kraków</SelectItem>
-      </SelectContent>
-    </Select>
-
-    <Select defaultValue="month">
-      <SelectTrigger className={`${isMobile ? 'w-[140px]' : 'w-[200px]'} bg-white border-gray-200 text-gray-700 hover:border-blue-400`}>
-        <SelectValue placeholder="Okres" />
-      </SelectTrigger>
-      <SelectContent className="bg-white border border-gray-200">
-        <SelectItem value="today">Dzisiaj</SelectItem>
-        <SelectItem value="week">Tydzień</SelectItem>
-        <SelectItem value="month">Miesiąc</SelectItem>
-        <SelectItem value="quarter">Kwartał</SelectItem>
-        <SelectItem value="year">Rok</SelectItem>
-      </SelectContent>
-    </Select>
-  </div>
-);
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const pathname = usePathname();
@@ -174,7 +147,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               )}
             </button>
           )}
-          <img src="/logo.png" alt="CRM" className="h-12 w-auto mr-4" />
+          <Image
+              src="/logo.png"
+              alt="CRM MatPoz"
+              width={200}  // Zwiększ rozmiar zgodnie z oryginalnym logo
+              height={48}  // Zachowaj proporcje
+              priority  // To zapewni szybsze ładowanie logo
+              className="h-12 w-auto mr-4"
+          />
 
           <h2 className="text-xl font-semibold text-gray-1 flex-1" />
 
