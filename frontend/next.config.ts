@@ -1,12 +1,13 @@
-import type { NextConfig } from 'next';
+/** @type {import('next').NextConfig} */
 
-const nextConfig: NextConfig = {
-  output: 'standalone',
+const nextConfig = {
+  output: 'export',
   images: {
     unoptimized: true,
   },
-  // Dodaj trailing slashes
   trailingSlash: true,
+  reactStrictMode: true,
+  assetPrefix: process.env.NODE_ENV === 'production' ? '.' : ''
 };
 
 export default nextConfig;
