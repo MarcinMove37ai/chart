@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+import { Config } from 'next';
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig: Config = {
+  output: 'standalone',
+  images: {
+    unoptimized: true,
+  },
+  // Dodaj trailing slashes
+  trailingSlash: true,
 };
 
 export default nextConfig;
